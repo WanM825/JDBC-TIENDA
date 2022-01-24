@@ -43,7 +43,7 @@ public abstract class DAO {
         }
     }
     
-    protected void insertarMofificarEliminar(String sql)throws Exception{
+    protected void insertarModificarEliminar(String sql)throws Exception{
         try {
             conectarBase();
             sentencia = conexion.createStatement();
