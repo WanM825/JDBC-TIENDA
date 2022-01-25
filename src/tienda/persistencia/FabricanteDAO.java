@@ -29,7 +29,7 @@ public class FabricanteDAO extends DAO {
 
         return fabricantes;
     }
-    
+    //g)ingresar un gabricante a la base de datos
     public void ingresarNuevoFabricante(Fabricante fabricante)throws Exception{
         try {
             String sql = "INSERT INTO fabricante VALUES ('"+fabricante.getCodigo()+"','"+fabricante.getNombre()+"')";

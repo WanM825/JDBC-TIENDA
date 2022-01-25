@@ -16,10 +16,10 @@ public class ProductoDAO extends DAO {
             
             while(resultado.next()){
                 Producto producto = new Producto();
-                producto.setCodigo(resultado.getInt("codigo"));
-                producto.setNombre(resultado.getString("nombre"));
-                producto.setPrecio(resultado.getDouble("precio"));
-                producto.setCodigoFabricante(resultado.getInt("codigoFabricante"));
+                producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(2));
+                producto.setPrecio(resultado.getDouble(3));
+                producto.setCodigoFabricante(resultado.getInt(4));
                 
                 productos.add(producto);                         
             }
@@ -105,7 +105,7 @@ public class ProductoDAO extends DAO {
             
             while(resultado.next()){
                 Producto producto = new Producto();
-                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setPrecio(resultado.getDouble(1));
                 
                 productos.add(producto);   
             }

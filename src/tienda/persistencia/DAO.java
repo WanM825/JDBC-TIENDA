@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public abstract class DAO {
     protected Connection conexion = null;
     protected ResultSet resultado = null;
@@ -14,12 +13,12 @@ public abstract class DAO {
     private final String USER = "root";
     private final String PASSWORD = "root";
     private final String DATABASE = "tienda";
-    private final String DRIVER =  "com.mysql.jdbc.Driver";
+    private final String DRIVER = "com.mysql.jdbc.Driver";
     
     protected void conectarBase()throws Exception{
         try {
             Class.forName(DRIVER);
-            String urlBaseDeDatos ="jdbc:mysql://localhost:3306" + DATABASE + "?useSSL=false";/*ultima parte habilita permisos*/
+            String urlBaseDeDatos ="jdbc:mysql://localhost:3306/"+ DATABASE + "?useSSL=false";/*ultima parte habilita permisos*/
             conexion = DriverManager.getConnection(urlBaseDeDatos, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException ex) {
             throw ex;
@@ -66,7 +65,5 @@ public abstract class DAO {
             throw ex;
         }
     }
-    
-    
     
 }
