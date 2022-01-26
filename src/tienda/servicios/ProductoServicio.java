@@ -60,6 +60,24 @@ public class ProductoServicio {
         dao.ingresarNuevoProducto(producto);
     }
     
+    public Producto buscarProducto(Codigo codigo)throws Exception{
+        Producto producto = dao.buscarProducto(codigo);
+        
+        return producto; 
+    }
+    
+    public void modificarProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception {
+        
+        Producto p = new Producto();
+        
+        p.setCodigo(codigo);
+        p.setNombre(nombre);
+        p.setPrecio(precio);
+        p.setCodigoFabricante(codigoFabricante);
+        
+        dao.modificarProducto(p);
+    }
+    
     //valida que los datos esten completos
     public void validar(int codigo, String nombre, double precio, int codigoFabricante)throws Exception{
         

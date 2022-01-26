@@ -131,5 +131,56 @@ public class ProductoDAO extends DAO {
     }
     
     //h. editar un producto con datos a eleccion
+    public Producto buscarProducto(Codigo codigo)throws Exception{
+           
+    Producto producto = null;
+
+        try {
+            String sql = "SELECT * FROM producto WHERE codigo LIKE '" + codigo + "'";
+
+            consultarBase(sql);
+
+            while (resultado.next()) {
+                producto = new Producto();
+                producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(2));
+                producto.setPrecio(resultado.getDouble(3));
+                producto.setCodigoFabricante(resultado.getInt(4));
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            desconectarBase();
+        }
+        return producto;
+    }
+    
+    public void modificarProducto(Producto producto, int opc) throws Exception{
+        try {
+            if(opc==1){
+                String sql = "UPDATE producto SET nombre='" + producto.getNombre()
+                    + "' WHERE nombre LIKE '" + producto.getNombre()+ "'";
+            }
+            
+            if(opc==2){
+                String sql = "UPDATE producto SET codigo='" + producto.getCodigo()
+                    + "'WHERE codigo LIKE '" + producto.getCodigo()+"'";
+            }
+            
+            if(opc==3){
+                String sql = "UPDATE producto SET precio='" + producto.getPrecio()
+                   + "' WHERE precio LIKE '" + producto.getPrecio()+"'";
+            }
+            if(opc==4){
+                String sql = "UPDATE producto SET codigo='" + producto.getCodigoFabricante()
+                   +"'WHERE codigoFabricante LIKE '" + producto.getCodigoFabricante() + "'";
+            }
+            
+            insertarModificarEliminar(sql);        
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     
 }
