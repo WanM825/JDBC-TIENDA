@@ -2,12 +2,19 @@ package tienda.persistencia;
 
 import java.util.ArrayList;
 import java.util.List;
+import tienda.entidades.Fabricante;
 import tienda.entidades.Producto;
 
 
 public class ProductoDAO extends DAO {
     
-    /*a. listar los objetos completos de la tabla producto*/
+    private FabricanteDAO fDAO;
+
+    public ProductoDAO(FabricanteDAO fDAO) {
+        fDAO = new FabricanteDAO();
+    }
+    
+        /*a. listar los objetos completos de la tabla producto*/
     public List<Producto> listarTodos() throws Exception{
         List <Producto> productos = new ArrayList();
         
@@ -19,7 +26,9 @@ public class ProductoDAO extends DAO {
                 producto.setCodigo(resultado.getInt(1));
                 producto.setNombre(resultado.getString(2));
                 producto.setPrecio(resultado.getDouble(3));
-                producto.setCodigoFabricante(resultado.getInt(4));
+                
+                Fabricante f = fDAO.buscarPorCodigo(resultado.getInt(4));
+               
                 
                 productos.add(producto);                         
             }
@@ -121,7 +130,7 @@ public class ProductoDAO extends DAO {
     public void ingresarNuevoProducto(Producto producto)throws Exception{
         try {
             String sql = "INSERT INTO producto VALUES ('"+ producto.getCodigo() +"','"+ producto.getNombre() +"','"
-                    + producto.getPrecio()+"','"+ producto.getCodigoFabricante()+"')";
+                    + producto.getPrecio()+"','"+ producto.getFabricante().getCodigo()+"')";
 
             insertarModificarEliminar(sql);
 
@@ -131,7 +140,7 @@ public class ProductoDAO extends DAO {
     }
     
     //h. editar un producto con datos a eleccion
-    public Producto buscarProducto(Codigo codigo)throws Exception{
+    public Producto buscarProducto(int codigo)throws Exception{
            
     Producto producto = null;
 
@@ -145,7 +154,8 @@ public class ProductoDAO extends DAO {
                 producto.setCodigo(resultado.getInt(1));
                 producto.setNombre(resultado.getString(2));
                 producto.setPrecio(resultado.getDouble(3));
-                producto.setCodigoFabricante(resultado.getInt(4));
+                Fabricante f = fDAO.buscarPorCodigo(resultado.getInt(4));
+                
             }
 
         } catch (Exception e) {
@@ -157,27 +167,14 @@ public class ProductoDAO extends DAO {
     }
     
     public void modificarProducto(Producto producto, int opc) throws Exception{
+        
         try {
-            if(opc==1){
-                String sql = "UPDATE producto SET nombre='" + producto.getNombre()
-                    + "' WHERE nombre LIKE '" + producto.getNombre()+ "'";
-            }
             
-            if(opc==2){
-                String sql = "UPDATE producto SET codigo='" + producto.getCodigo()
-                    + "'WHERE codigo LIKE '" + producto.getCodigo()+"'";
-            }
+            String sql = "UPDATE producto SET nombre = '" + producto.getNombre() +
+                    "', precio = " + producto.getPrecio() + " WHERE codigo = " + producto.getCodigo();
             
-            if(opc==3){
-                String sql = "UPDATE producto SET precio='" + producto.getPrecio()
-                   + "' WHERE precio LIKE '" + producto.getPrecio()+"'";
-            }
-            if(opc==4){
-                String sql = "UPDATE producto SET codigo='" + producto.getCodigoFabricante()
-                   +"'WHERE codigoFabricante LIKE '" + producto.getCodigoFabricante() + "'";
-            }
+            insertarModificarEliminar(sql);
             
-            insertarModificarEliminar(sql);        
         } catch (Exception e) {
             throw e;
         }

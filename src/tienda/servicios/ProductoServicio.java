@@ -1,16 +1,19 @@
 package tienda.servicios;
 
 import java.util.List;
+import tienda.entidades.Fabricante;
 import tienda.entidades.Producto;
 import tienda.persistencia.ProductoDAO;
 
 
 public class ProductoServicio {
     
-    private ProductoDAO dao;
-    
-    public ProductoServicio() {
-        this.dao = new ProductoDAO();
+    private final ProductoDAO dao;
+    private final FabricanteServicio fabricanteServicio;
+
+    public ProductoServicio(ProductoDAO dao, FabricanteServicio fabricanteServicio) {
+        this.dao = dao;
+        this.fabricanteServicio = fabricanteServicio;
     }
     
     public List<Producto> listarTodos() throws Exception {
@@ -20,9 +23,9 @@ public class ProductoServicio {
     
     public void mostrarTodos()throws Exception {
         List<Producto>productos = listarTodos();
-        
+        System.out.println("Listado de nombre de productos");
         for (Producto producto : productos) {
-            System.out.println(producto);
+            System.out.println(producto.getNombre());
         }
     }
     
@@ -48,24 +51,20 @@ public class ProductoServicio {
     
     public void ingresarNuevoProducto(int codigo, String nombre, double precio, int codigoFabricante)throws Exception{
         
-       // validar(codigo, nombre, precio, codigoFabricante);
+       validar(codigo, nombre, precio, codigoFabricante);
+       Fabricante f = fabricanteServicio.buscarPorCodigo(codigo);
+       Producto producto = new Producto(codigo, nombre, precio, f);
         
-        Producto producto = new Producto();
-        
-        producto.setCodigo(codigo);
-        producto.setNombre(nombre);
-        producto.setPrecio(precio);
-        producto.setCodigoFabricante(codigoFabricante);
         
         dao.ingresarNuevoProducto(producto);
     }
     
-    public Producto buscarProducto(Codigo codigo)throws Exception{
+    /*public Producto buscarProducto(Codigo codigo)throws Exception{
         Producto producto = dao.buscarProducto(codigo);
         
         return producto; 
     }
-    
+    */
     public void modificarProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception {
         
         Producto p = new Producto();
@@ -73,9 +72,9 @@ public class ProductoServicio {
         p.setCodigo(codigo);
         p.setNombre(nombre);
         p.setPrecio(precio);
-        p.setCodigoFabricante(codigoFabricante);
+        //p.setCodigoFabricante(codigoFabricante);
         
-        dao.modificarProducto(p);
+        //dao.modificarProducto(p);
     }
     
     //valida que los datos esten completos
